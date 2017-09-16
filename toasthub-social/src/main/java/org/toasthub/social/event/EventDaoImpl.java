@@ -56,7 +56,7 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 			HQLQuery += "AND e.message like :searchValue ";
 		}
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", ((UserRef) request.getParam("userRef")).getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if (request.containsParam(GlobalConstant.ACTIVE)) {
 			query.setParameter(GlobalConstant.ACTIVE, request.getParam(GlobalConstant.ACTIVE));
 		} else {
@@ -79,7 +79,7 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 		HQLQuery += "ORDER BY e.created DESC ";
 		
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", ((UserRef) request.getParam("userRef")).getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if (request.containsParam(GlobalConstant.ACTIVE)) {
 			query.setParameter(GlobalConstant.ACTIVE, request.getParam(GlobalConstant.ACTIVE));
 		} else {
@@ -107,7 +107,7 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 	@Override
 	public void save(RestRequest request, RestResponse response) throws Exception {
 		Event event = (Event) request.getParam("event");
-		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam("userRef")).getId());
+		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		event.setOwner(userRef);
 		Event e = entityManagerDataSvc.getInstance().merge(event);
 		request.addParam("event", e);
@@ -125,7 +125,7 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 	public void saveAttachment(RestRequest request, RestResponse response) throws Exception {
 		AttachmentMeta attachment = (AttachmentMeta) request.getParam("attachmentMeta");
 		Long id = Long.parseLong((String) request.getParam("eventId"));
-		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam("userRef")).getId());
+		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		attachment.setUserRef(userRef);
 		Directory directory = null;
 		try {
@@ -186,7 +186,7 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 		HQLQuery += "ORDER BY e.created DESC ";
 		
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", ((UserRef) request.getParam("userRef")).getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		query.setParameter("fromdate", cal.getTime());
 		if (request.containsParam(GlobalConstant.ACTIVE)) {
 			query.setParameter(GlobalConstant.ACTIVE, request.getParam(GlobalConstant.ACTIVE));

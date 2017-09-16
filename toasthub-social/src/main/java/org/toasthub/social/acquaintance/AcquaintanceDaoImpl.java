@@ -31,7 +31,6 @@ import org.toasthub.core.general.model.EmailInvite;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
 import org.toasthub.core.general.utils.TenantContext;
-import org.toasthub.security.model.UserContext;
 import org.toasthub.social.model.Acquaintance;
 import org.toasthub.social.model.Invite;
 import org.toasthub.social.model.UserRef;
@@ -39,9 +38,6 @@ import org.toasthub.social.model.UserRef;
 @Repository("LanguageDao")
 @Transactional("TransactionManagerData")
 public class AcquaintanceDaoImpl implements AcquaintanceDao {
-
-	@Autowired
-	UserContext userContext;	
 	
 	@Autowired
 	protected EntityManagerDataSvc entityManagerDataSvc;
@@ -54,7 +50,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		}
 		HQLQuery += "ORDER BY a.acquaintance.lastname ASC";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", userContext.getCurrentUser().getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if (request.getParam(GlobalConstant.SEARCHVALUE) != null && !((String)request.getParam(GlobalConstant.SEARCHVALUE)).isEmpty()){
 			query.setParameter("searchValue", ((String)request.getParam(GlobalConstant.SEARCHVALUE))+"%");
 		}
@@ -122,7 +118,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 			HQLQuery += "AND (a.acquaintance.lastname like :searchValue OR a.acquaintance.firstname like :searchValue) ";
 		}
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", userContext.getCurrentUser().getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if (request.getParam(GlobalConstant.SEARCHVALUE) != null && !((String)request.getParam(GlobalConstant.SEARCHVALUE)).isEmpty()){
 			query.setParameter("searchValue", ((String)request.getParam(GlobalConstant.SEARCHVALUE))+"%");
 		}
@@ -148,7 +144,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 	public void makeAcquaintanceInvite(RestRequest request, RestResponse response) throws Exception {
 		// find sender
 		UserRef sender = (UserRef) entityManagerDataSvc.getInstance().createQuery("FROM UserRef AS u WHERE u.sender.id = :id")
-				.setParameter("id",userContext.getCurrentUser().getId()).getSingleResult();
+				.setParameter("id",((UserRef) request.getParam(GlobalConstant.USERREF)).getId()).getSingleResult();
 		// find receiver
 		UserRef receiver = null;
 		String message = "I want to connect";
@@ -183,7 +179,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 	public void makeEmailInvite(RestRequest request, RestResponse response) throws Exception {
 		EmailInvite invite = (EmailInvite) request.getParam("emailInvite");
 		
-		UserRef sender = (UserRef) entityManagerDataSvc.getInstance().createQuery("FROM UserRef AS u WHERE u.sender.id = :id").setParameter("id",userContext.getCurrentUser().getId()).getSingleResult();
+		UserRef sender = (UserRef) entityManagerDataSvc.getInstance().createQuery("FROM UserRef AS u WHERE u.sender.id = :id").setParameter("id",((UserRef) request.getParam(GlobalConstant.USERREF)).getId()).getSingleResult();
 		Long count = (Long) entityManagerDataSvc.getInstance().createQuery("SELECT count(*) FROM EmailInvite as i WHERE i.receiverEmail = :receiverEmail AND i.sender = :sender")
 				.setParameter("receiverEmail", invite.getReceiverEmail()).setParameter("sender", sender).getSingleResult();
 		invite.setSenderRefId(sender.getId());
@@ -215,7 +211,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		}
 		HQLQuery += "ORDER BY i.sender.lastname ASC";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", userContext.getCurrentUser().getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		
 		if (request.getParam("iStatus") != null && !((String)request.getParam("iStatus")).isEmpty()){
 			query.setParameter("status", ((String)request.getParam("iStatus")));
@@ -239,7 +235,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		}
 		HQLQuery += "ORDER BY i.receiver.lastname ASC";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", userContext.getCurrentUser().getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		
 		if (request.getParam("iStatus") != null && !((String)request.getParam("iStatus")).isEmpty()){
 			query.setParameter("status", ((String)request.getParam("iStatus")));
@@ -260,7 +256,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		}
 		HQLQuery += "ORDER BY i.receiverEmail ASC";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("uid", userContext.getCurrentUser().getId());
+		query.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		
 		if (request.getParam("iStatus") != null && !((String)request.getParam("iStatus")).isEmpty()){
 			query.setParameter("status", ((String)request.getParam("iStatus")));
@@ -277,7 +273,7 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 	public void getInviteCount(RestRequest request, RestResponse response) throws Exception {
 		//	String status
 		Long count = (Long) entityManagerDataSvc.getInstance().createQuery("SELECT count(*) FROM Invite as i WHERE i.receiverRefId = :uid AND i.status = :status")
-				.setParameter("uid", userContext.getCurrentUser().getId()).setParameter("status", (String) request.getParam("status")).getSingleResult();
+				.setParameter("uid", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId()).setParameter("status", (String) request.getParam("status")).getSingleResult();
 		response.addParam("inviteCount", count);
 	}
 
@@ -318,9 +314,9 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 	public void deleteAcquaintance(RestRequest request, RestResponse response) throws Exception {
 		//	Long memberId
 		entityManagerDataSvc.getInstance().createQuery("DELETE Acquaintance as a WHERE a.user.id = :myid and a.acquaintance.id = :memberid")
-			.setParameter("myid",userContext.getCurrentUser().getId()).setParameter("memberid", (Long) request.getParam("memberId")).executeUpdate();
+			.setParameter("myid",((UserRef) request.getParam(GlobalConstant.USERREF)).getId()).setParameter("memberid", (Long) request.getParam("memberId")).executeUpdate();
 		entityManagerDataSvc.getInstance().createQuery("DELETE Acquaintance as a WHERE a.user.id = :memberid and a.acquaintance.id = :myid")
-			.setParameter("myid",userContext.getCurrentUser().getId()).setParameter("memberid", (Long) request.getParam("memberId")).executeUpdate();
+			.setParameter("myid",((UserRef) request.getParam(GlobalConstant.USERREF)).getId()).setParameter("memberid", (Long) request.getParam("memberId")).executeUpdate();
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.toasthub.core.common.EntityManagerDataSvc;
+import org.toasthub.core.general.model.GlobalConstant;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
 import org.toasthub.social.model.Directory;
@@ -60,7 +61,7 @@ public class LibraryDaoImpl implements LibraryDao{
 				query.setMaxResults((Integer) request.getParam("pageLimit"));
 			}
 			
-			query.setParameter("id",((UserRef) request.getParam("userRef")).getId());
+			query.setParameter("id",((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		} else {
 			
 		}
@@ -80,7 +81,7 @@ public class LibraryDaoImpl implements LibraryDao{
 		
 		Directory directory = new Directory();
 		Long parentId = new Long((Integer) request.getParam("parentId"));
-		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam("userRef")).getId());
+		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		directory.setOwner(userRef);
 		if (parentId != null){
 			Directory parentDir = (Directory) entityManagerDataSvc.getInstance().getReference(Directory.class, parentId);
@@ -113,11 +114,11 @@ public class LibraryDaoImpl implements LibraryDao{
 			if (parentId != null){
 				query.setParameter("parent",parentId);
 			}
-			query.setParameter("uid",((UserRef) request.getParam("userRef")).getId());
+			query.setParameter("uid",((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		} else {
 			String HQLQuery = "SELECT count(*) FROM Directory AS d WHERE d.owner.id <> :uid";
 			query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-			query.setParameter("uid",((UserRef) request.getParam("userRef")).getId());
+			query.setParameter("uid",((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		}
 		
 		response.addParam("dirCount", (Long) query.getSingleResult());
@@ -136,7 +137,7 @@ public class LibraryDaoImpl implements LibraryDao{
 			String HQLQuery = "SELECT count(*) FROM AttachmentMeta AS a WHERE a.directory.id = :parentid ";
 			query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
 			query.setParameter("parentid",parentId);
-			query.setParameter("id",((UserRef) request.getParam("userRef")).getId());
+			query.setParameter("id",((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		} 
 		response.addParam("fileCount", (Long) query.getSingleResult());
 	}

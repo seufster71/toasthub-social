@@ -22,6 +22,7 @@ import java.util.Set;
 
 import javax.persistence.Query;
 
+import org.toasthub.core.general.model.GlobalConstant;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
 import org.toasthub.social.model.AttachmentMeta;
@@ -41,7 +42,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 	public void itemCount(RestRequest request, RestResponse response) throws Exception {
 		String queryStr = "SELECT COUNT(*) FROM Location l WHERE l.ownerRefId = :id ";
 		Query query = entityManagerDataSvc.getInstance().createQuery(queryStr);
-		query.setParameter("id",((UserRef) request.getParam("userRef")).getId());
+		query.setParameter("id",((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		Long count = (Long) query.getSingleResult();
 		if (count == null){
 			count = 0l;
@@ -54,7 +55,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 		@SuppressWarnings("unchecked")
 		String queryStr = "FROM Location l WHERE l.ownerRefId = :id ORDER BY l.created DESC ";
 		Query query = entityManagerDataSvc.getInstance().createQuery(queryStr);
-		query.setParameter("id",((UserRef) request.getParam("userRef")).getId());
+		query.setParameter("id",((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if ((Integer) request.getParam("pageLimit") != 0){
 			query.setFirstResult((Integer) request.getParam("pageStart"));
 			query.setMaxResults((Integer) request.getParam("pageLimit"));
@@ -81,7 +82,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 	@Override
 	public void save(RestRequest request, RestResponse response) throws Exception {
 		Location location = (Location) request.getParam("location");
-		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam("userRef")).getId());
+		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		location.setOwner(userRef);
 		entityManagerDataSvc.getInstance().merge(location);
 	}
@@ -89,7 +90,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 	@Override
 	public void delete(RestRequest request, RestResponse response) throws Exception {
 		Location location = (Location) entityManagerDataSvc.getInstance().find(Location.class, new Long((Integer) request.getParam("id")));
-		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam("userRef")).getId());
+		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if (location.getOwner().equals(userRef)){
 			entityManagerDataSvc.getInstance().remove(location);
 		}
@@ -99,7 +100,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 	public void saveAttachment(RestRequest request, RestResponse response) throws Exception {
 		AttachmentMeta attachment = (AttachmentMeta) request.getParam("attachment");
 		Long id = new Long((Integer) request.getParam("fuLocationId"));
-		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam("userRef")).getId());
+		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		attachment.setUserRef(userRef);
 		Directory directory = null;
 		try {
@@ -141,10 +142,10 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 
 	public void getAcquaintanceLocations(RestRequest request, RestResponse response) throws Exception {
 		@SuppressWarnings("unchecked")
-		Long x = ((UserRef) request.getParam("userRef")).getId();
+		Long x = ((UserRef) request.getParam(GlobalConstant.USERREF)).getId();
 		String queryStr = "SELECT new Location(l.id, l.ownerRefId, l.latitude, l.longitude, l.altitude, l.accuracy, l.provider, max(l.created)) FROM Location as l WHERE l.ownerRefId in (SELECT a.acquaintance.id FROM Acquaintance as a WHERE a.userRefId = :uid)  GROUP BY l.ownerRefId ";
 		Query query = entityManagerDataSvc.getInstance().createQuery(queryStr);
-		query.setParameter("uid",((UserRef) request.getParam("userRef")).getId());
+		query.setParameter("uid",((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if ((Integer) request.getParam("pageLimit") != 0){
 			query.setFirstResult((Integer) request.getParam("pageStart"));
 			query.setMaxResults((Integer) request.getParam("pageLimit"));

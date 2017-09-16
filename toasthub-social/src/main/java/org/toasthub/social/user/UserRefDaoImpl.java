@@ -83,9 +83,9 @@ public class UserRefDaoImpl implements UserRefDao {
 
 	@Override
 	public void save(RestRequest request, RestResponse response) throws Exception {
-		UserRef userRef = (UserRef) request.getParam("userRef");
+		UserRef userRef = (UserRef) request.getParam(GlobalConstant.USERREF);
 		UserRef u = entityManagerDataSvc.getInstance().merge(userRef);
-		request.addParam("userRef", u);
+		request.addParam(GlobalConstant.USERREF, u);
 		request.addParam("userRefId", u.getId());
 		
 	}
