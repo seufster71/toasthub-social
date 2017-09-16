@@ -16,6 +16,7 @@ public class UserRef extends SocialBaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	protected Long userRefId;
 	protected String firstname;
 	protected String lastname;
 	
@@ -25,6 +26,15 @@ public class UserRef extends SocialBaseEntity implements Serializable {
 	}
 	
 	// Setters/Getters
+	@JsonView({View.Admin.class,View.Member.class})
+	@Column(name = "user_id")
+	public Long getUserRefId() {
+		return userRefId;
+	}
+	public void setUserRefId(Long userRefId) {
+		this.userRefId = userRefId;
+	}
+	
 	@JsonView({View.Admin.class,View.Member.class})
 	@Column(name = "firstname")
 	public String getFirstname() {

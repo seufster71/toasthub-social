@@ -34,7 +34,7 @@ import org.toasthub.security.userManager.UserManagerSvc;
 import org.toasthub.social.model.Invite;
 
 @Service("AcquaintanceSvc")
-public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor{
+public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 
 	@Autowired
 	AcquaintanceDao acquaintanceDao;
@@ -61,6 +61,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor{
 		paramMap.put("appUserId", "Long");
 	}
 	
+	@Override
 	public void process(RestRequest request, RestResponse response) {
 		utilSvc.preProcessParams(request, paramMap);
 		String action = (String) request.getParams().get(GlobalConstant.ACTION);
