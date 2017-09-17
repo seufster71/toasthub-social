@@ -16,12 +16,8 @@
 
 package org.toasthub.social.event;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.toasthub.core.common.UtilSvc;
 import org.toasthub.core.general.handler.ServiceProcessor;
@@ -36,9 +32,12 @@ import org.toasthub.social.model.Event;
 public class EventSvcImpl implements EventSvc, ServiceProcessor {
 
 	@Autowired 
+	@Qualifier("EventDao")
 	EventDao eventDao;
+	
 	@Autowired
 	UtilSvc utilSvc;
+	
 	@Autowired
 	AppCachePageUtil appCachePageUtil;
 	

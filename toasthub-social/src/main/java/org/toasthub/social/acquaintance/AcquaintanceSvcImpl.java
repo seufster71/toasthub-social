@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.toasthub.core.common.UtilSvc;
 import org.toasthub.core.general.handler.ServiceProcessor;
@@ -37,6 +38,7 @@ import org.toasthub.social.model.Invite;
 public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 
 	@Autowired
+	@Qualifier("AcquaintanceDao")
 	AcquaintanceDao acquaintanceDao;
 	
 	@Autowired 
