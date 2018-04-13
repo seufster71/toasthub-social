@@ -22,6 +22,8 @@ import java.util.Set;
 
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.toasthub.core.general.model.GlobalConstant;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
@@ -31,9 +33,10 @@ import org.toasthub.social.model.Location;
 import org.toasthub.social.model.UserRef;
 import org.toasthub.social.repository.BaseDaoImpl;
 
-
+@Repository("LocationDao")
+@Transactional("TransactionManagerData")
 public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
-
+	
 	public LocationDaoImpl() {
 		super();
 	}

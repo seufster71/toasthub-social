@@ -35,7 +35,7 @@ import org.toasthub.social.model.Acquaintance;
 import org.toasthub.social.model.Invite;
 import org.toasthub.social.model.UserRef;
 
-@Repository("LanguageDao")
+@Repository("AcquaintanceDao")
 @Transactional("TransactionManagerData")
 public class AcquaintanceDaoImpl implements AcquaintanceDao {
 	
