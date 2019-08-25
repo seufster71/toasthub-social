@@ -88,9 +88,9 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 		if (request.getParam(GlobalConstant.SEARCHVALUE) != null && !((String)request.getParam(GlobalConstant.SEARCHVALUE)).isEmpty()){
 			query.setParameter("searchValue", "%"+((String)request.getParam(GlobalConstant.SEARCHVALUE))+"%");
 		}
-		if ((Integer) request.getParam(GlobalConstant.PAGELIMIT) != 0){
-			query.setFirstResult((Integer) request.getParam(GlobalConstant.PAGESTART));
-			query.setMaxResults((Integer) request.getParam(GlobalConstant.PAGELIMIT));
+		if ((Integer) request.getParam(GlobalConstant.LISTLIMIT) != 0){
+			query.setFirstResult((Integer) request.getParam(GlobalConstant.LISTSTART));
+			query.setMaxResults((Integer) request.getParam(GlobalConstant.LISTLIMIT));
 		}
 		List<Event> events = (List<Event>) query.getResultList();
 		if (request.containsParam("includeImages") && "LISTID".equals(request.getParam("includeImages"))) {

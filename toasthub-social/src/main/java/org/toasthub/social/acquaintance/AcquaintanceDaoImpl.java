@@ -54,9 +54,9 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		if (request.getParam(GlobalConstant.SEARCHVALUE) != null && !((String)request.getParam(GlobalConstant.SEARCHVALUE)).isEmpty()){
 			query.setParameter("searchValue", ((String)request.getParam(GlobalConstant.SEARCHVALUE))+"%");
 		}
-		if ((Integer) request.getParam(GlobalConstant.PAGELIMIT) != 0){
-			query.setFirstResult((Integer) request.getParam(GlobalConstant.PAGESTART));
-			query.setMaxResults((Integer) request.getParam(GlobalConstant.PAGELIMIT));
+		if ((Integer) request.getParam(GlobalConstant.LISTLIMIT) != 0){
+			query.setFirstResult((Integer) request.getParam(GlobalConstant.LISTSTART));
+			query.setMaxResults((Integer) request.getParam(GlobalConstant.LISTLIMIT));
 		}
 		
 		response.addParam("acquaintances", (List<?>) query.getResultList());
@@ -219,9 +219,9 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		if (request.getParam(GlobalConstant.SEARCHVALUE) != null && !((String)request.getParam(GlobalConstant.SEARCHVALUE)).isEmpty()){
 			query.setParameter("searchValue", ((String)request.getParam(GlobalConstant.SEARCHVALUE))+"%");
 		}
-		if ((Integer) request.getParam(GlobalConstant.PAGELIMIT) != 0){
-			query.setFirstResult((Integer) request.getParam(GlobalConstant.PAGESTART));
-			query.setMaxResults((Integer) request.getParam(GlobalConstant.PAGELIMIT));
+		if ((Integer) request.getParam(GlobalConstant.LISTLIMIT) != 0){
+			query.setFirstResult((Integer) request.getParam(GlobalConstant.LISTSTART));
+			query.setMaxResults((Integer) request.getParam(GlobalConstant.LISTLIMIT));
 		}
 		
 		response.addParam("invitesReceived", (List<?>) query.getResultList());
@@ -240,9 +240,9 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		if (request.getParam("iStatus") != null && !((String)request.getParam("iStatus")).isEmpty()){
 			query.setParameter("status", ((String)request.getParam("iStatus")));
 		}
-		if ((Integer) request.getParam(GlobalConstant.PAGELIMIT) != 0){
-			query.setFirstResult((Integer) request.getParam(GlobalConstant.PAGESTART));
-			query.setMaxResults((Integer) request.getParam(GlobalConstant.PAGELIMIT));
+		if ((Integer) request.getParam(GlobalConstant.LISTLIMIT) != 0){
+			query.setFirstResult((Integer) request.getParam(GlobalConstant.LISTSTART));
+			query.setMaxResults((Integer) request.getParam(GlobalConstant.LISTLIMIT));
 		}
 		
 		response.addParam("invitesSent", (List<?>) query.getResultList());
@@ -261,9 +261,9 @@ public class AcquaintanceDaoImpl implements AcquaintanceDao {
 		if (request.getParam("iStatus") != null && !((String)request.getParam("iStatus")).isEmpty()){
 			query.setParameter("status", ((String)request.getParam("iStatus")));
 		}
-		if ((Integer) request.getParam(GlobalConstant.PAGELIMIT) != 0){
-			query.setFirstResult((Integer) request.getParam(GlobalConstant.PAGESTART));
-			query.setMaxResults((Integer) request.getParam(GlobalConstant.PAGELIMIT));
+		if ((Integer) request.getParam(GlobalConstant.LISTLIMIT) != 0){
+			query.setFirstResult((Integer) request.getParam(GlobalConstant.LISTSTART));
+			query.setMaxResults((Integer) request.getParam(GlobalConstant.LISTLIMIT));
 		}
 		
 		response.addParam("evitesSent", (List<?>) query.getResultList());
