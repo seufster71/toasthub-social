@@ -22,7 +22,7 @@ import org.toasthub.core.common.UtilSvc;
 import org.toasthub.core.general.handler.ServiceProcessor;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
-import org.toasthub.core.preference.model.AppCachePageUtil;
+import org.toasthub.core.preference.model.PrefCacheUtil;
 import org.toasthub.social.model.Location;
 
 @Service("LocationSvc")
@@ -33,7 +33,7 @@ public class LocationSvcImpl implements LocationSvc, ServiceProcessor {
 	@Autowired
 	UtilSvc utilSvc;
 	@Autowired
-	AppCachePageUtil appCachePageUtil;
+	PrefCacheUtil prefCacheUtil;
 	
 	@Override
 	public void process(RestRequest request, RestResponse response) {
@@ -63,7 +63,7 @@ public class LocationSvcImpl implements LocationSvc, ServiceProcessor {
 			item(request, response);
 			break;
 		case "SAVE":
-			appCachePageUtil.getPageInfo(request,response);
+			prefCacheUtil.getPrefInfo(request,response);
 			
 			Location location = new Location(request, response, "SOCIAL_LOCATION");
 			request.addParam("location", location);

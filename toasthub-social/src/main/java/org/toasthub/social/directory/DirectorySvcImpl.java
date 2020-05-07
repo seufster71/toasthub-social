@@ -23,7 +23,7 @@ import org.toasthub.core.general.handler.ServiceProcessor;
 import org.toasthub.core.general.model.GlobalConstant;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
-import org.toasthub.core.preference.model.AppCachePageUtil;
+import org.toasthub.core.preference.model.PrefCacheUtil;
 import org.toasthub.social.model.Directory;
 
 public class DirectorySvcImpl implements ServiceProcessor, DirectorySvc {
@@ -36,7 +36,7 @@ public class DirectorySvcImpl implements ServiceProcessor, DirectorySvc {
 	UtilSvc utilSvc;
 	
 	@Autowired
-	AppCachePageUtil appCachePageUtil;
+	PrefCacheUtil prefCacheUtil;
 	
 	@Override
 	public void process(RestRequest request, RestResponse response) {
@@ -45,8 +45,8 @@ public class DirectorySvcImpl implements ServiceProcessor, DirectorySvc {
 		Long count = 0l;
 		switch (action) {
 		case "INIT": 
-			request.addParam(AppCachePageUtil.APPPAGEPARAMLOC, AppCachePageUtil.RESPONSE);
-			appCachePageUtil.getPageInfo(request,response);
+			request.addParam(PrefCacheUtil.PREFPARAMLOC, PrefCacheUtil.RESPONSE);
+			prefCacheUtil.getPrefInfo(request,response);
 			this.itemCount(request, response);
 			count = (Long) response.getParam(GlobalConstant.ITEMCOUNT);
 			if (count != null && count > 0){
@@ -55,8 +55,8 @@ public class DirectorySvcImpl implements ServiceProcessor, DirectorySvc {
 			response.addParam(GlobalConstant.ITEMNAME, request.getParam(GlobalConstant.ITEMNAME));
 			break;
 		case "LIST":
-			request.addParam(AppCachePageUtil.APPPAGEPARAMLOC, AppCachePageUtil.RESPONSE);
-			appCachePageUtil.getPageInfo(request,response);
+			request.addParam(PrefCacheUtil.PREFPARAMLOC, PrefCacheUtil.RESPONSE);
+			prefCacheUtil.getPrefInfo(request,response);
 			this.itemCount(request, response);
 			count = (Long) response.getParam(GlobalConstant.ITEMCOUNT);
 			if (count != null && count > 0){
@@ -68,7 +68,7 @@ public class DirectorySvcImpl implements ServiceProcessor, DirectorySvc {
 			this.item(request, response);
 			break;
 		case "SAVE":
-			appCachePageUtil.getPageInfo(request,response);
+			prefCacheUtil.getPrefInfo(request,response);
 			this.save(request, response);
 			break;
 		case "DELETE":

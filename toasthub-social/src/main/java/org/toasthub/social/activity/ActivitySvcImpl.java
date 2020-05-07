@@ -22,7 +22,7 @@ import org.toasthub.core.common.UtilSvc;
 import org.toasthub.core.general.handler.ServiceProcessor;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
-import org.toasthub.core.preference.model.AppCachePageUtil;
+import org.toasthub.core.preference.model.PrefCacheUtil;
 import org.toasthub.social.acquaintance.AcquaintanceSvc;
 
 @Service("ActivitySvc")
@@ -35,7 +35,7 @@ public class ActivitySvcImpl implements AcquaintanceSvc, ServiceProcessor {
 	UtilSvc utilSvc;
 	
 	@Autowired
-	AppCachePageUtil appCachePageUtil;
+	PrefCacheUtil prefCacheUtil;
 
 	@Override
 	public void process(RestRequest request, RestResponse response) {

@@ -23,7 +23,7 @@ import org.toasthub.core.common.UtilSvc;
 import org.toasthub.core.general.handler.ServiceProcessor;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
-import org.toasthub.core.preference.model.AppCachePageUtil;
+import org.toasthub.core.preference.model.PrefCacheUtil;
 import org.toasthub.social.model.AttachmentMeta;
 import org.toasthub.social.model.AttachmentThumbnail;
 import org.toasthub.social.model.Event;
@@ -39,7 +39,7 @@ public class EventSvcImpl implements EventSvc, ServiceProcessor {
 	UtilSvc utilSvc;
 	
 	@Autowired
-	AppCachePageUtil appCachePageUtil;
+	PrefCacheUtil prefCacheUtil;
 	
 	@Override
 	public void process(RestRequest request, RestResponse response) {
@@ -70,7 +70,7 @@ public class EventSvcImpl implements EventSvc, ServiceProcessor {
 			break;
 		case "SAVE":
 			request.addParam("sysPageFormName", "SOCIAL_EVENT");
-			appCachePageUtil.getPageInfo(request,response);
+			prefCacheUtil.getPrefInfo(request,response);
 			
 			event = new Event(request, response, "SOCIAL_EVENT");
 			request.addParam("event", event);
@@ -82,7 +82,7 @@ public class EventSvcImpl implements EventSvc, ServiceProcessor {
 			break;
 		case "SAVE_IMAGE": 
 			request.addParam("sysPageFormName", "SOCIAL_EVENT");
-			appCachePageUtil.getPageInfo(request,response);
+			prefCacheUtil.getPrefInfo(request,response);
 			String fileName = "";
 			String contentType = "txt";
 			String comment = null;

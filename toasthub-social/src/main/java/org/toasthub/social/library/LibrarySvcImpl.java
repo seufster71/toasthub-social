@@ -22,7 +22,7 @@ import org.toasthub.core.common.UtilSvc;
 import org.toasthub.core.general.handler.ServiceProcessor;
 import org.toasthub.core.general.model.RestRequest;
 import org.toasthub.core.general.model.RestResponse;
-import org.toasthub.core.preference.model.AppCachePageUtil;
+import org.toasthub.core.preference.model.PrefCacheUtil;
 import org.toasthub.social.model.Directory;
 
 
@@ -34,7 +34,7 @@ public class LibrarySvcImpl implements LibrarySvc, ServiceProcessor {
 	@Autowired
 	UtilSvc utilSvc;
 	@Autowired
-	AppCachePageUtil appCachePageUtil;
+	PrefCacheUtil prefCacheUtil;
 	
 	@Override
 	public void process(RestRequest request, RestResponse response) {
@@ -48,7 +48,7 @@ public class LibrarySvcImpl implements LibrarySvc, ServiceProcessor {
 		switch (action) {
 		case "INIT": 
 			
-			appCachePageUtil.getPageInfo(request,response);
+			prefCacheUtil.getPrefInfo(request,response);
 			
 			response.addParam("pageName", "SOCIAL_LIBRARY");
 			request.addParam("iType", Directory.MINE);
