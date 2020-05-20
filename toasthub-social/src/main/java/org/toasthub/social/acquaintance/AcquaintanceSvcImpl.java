@@ -174,7 +174,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 				utilSvc.addStatus(RestResponse.INFO, RestResponse.EMPTY, "No Acquaintances", response);
 			}
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}
@@ -186,7 +186,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 				utilSvc.addStatus(RestResponse.INFO, RestResponse.EMPTY, "No Members", response);
 			}
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, AppCachePageUtil.getAppText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, AppCachePageUtil.getAppText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}*/
@@ -195,7 +195,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 		try {
 			acquaintanceDao.getAcquaintanceCount(request, response);
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}
@@ -209,7 +209,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 			acquaintanceDao.makeAcquaintanceInvite(request, response);
 			utilSvc.addStatus(RestResponse.INFO, RestResponse.SUCCESS, "Invite sent successful", response);
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}
@@ -221,7 +221,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 				utilSvc.addStatus(RestResponse.INFO, RestResponse.EMPTY, "No Invites Received", response);
 			}
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}
@@ -233,7 +233,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 				utilSvc.addStatus(RestResponse.INFO, RestResponse.EMPTY, "No Invites Sent", response);
 			}
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}
@@ -245,7 +245,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 				utilSvc.addStatus(RestResponse.INFO, RestResponse.EMPTY, "No Email Invites Sent", response);
 			}
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}
@@ -254,7 +254,7 @@ public class AcquaintanceSvcImpl implements AcquaintanceSvc, ServiceProcessor {
 		try {
 			acquaintanceDao.getInviteCount(request, response);
 		} catch (Exception e) {
-			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL").getValue(), response);
+			utilSvc.addStatus(RestResponse.ERROR, RestResponse.EXECUTIONFAILED, PrefCacheUtil.getPrefText(request, "ACQUAINTANCE_SERVICE", "ACQUAINTANCE_SERVICE_FAIL"), response);
 			e.printStackTrace();
 		}
 	}
