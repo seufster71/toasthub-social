@@ -24,7 +24,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import org.toasthub.core.general.api.View;
 
@@ -63,7 +62,6 @@ public class DiscussionComment extends SocialBaseEntity implements Serializable{
 	
 	// Methods
 	@JsonView({View.Member.class})
-	@Size(min = 1, max = 255)
 	@Column(name = "message_short")
 	public String getMessageShort() {
 		return messageShort;
@@ -73,7 +71,6 @@ public class DiscussionComment extends SocialBaseEntity implements Serializable{
 	}
 	
 	@JsonView({View.Member.class})
-	@Size(max = 4096)
 	@Column(name = "message")
 	public String getMessage() {
 		return message;

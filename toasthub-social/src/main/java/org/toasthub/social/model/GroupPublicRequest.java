@@ -25,7 +25,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Size;
 
 import org.toasthub.core.general.api.View;
 
@@ -82,7 +81,6 @@ public class GroupPublicRequest extends SocialBaseEntity implements Serializable
 	}
 
 	@JsonView({View.Member.class})
-	@Size(min = 1, max = 2048)
 	@Column(name = "message")
 	public String getMessage() {
 		return message;

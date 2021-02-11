@@ -23,11 +23,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.toasthub.core.general.api.View;
 import org.toasthub.core.general.model.SendMailIntf;
 
@@ -65,9 +62,6 @@ public class Invite extends SocialBaseEntity implements SendMailIntf, Serializab
 	
 	// setter/getters
 	@JsonView({View.Member.class,View.Admin.class})
-	@NotNull
-	@NotEmpty
-	@Size(min = 1, max = 2048)
 	@Column(name = "message")
 	public String getMessage() {
 		return message;
@@ -77,8 +71,6 @@ public class Invite extends SocialBaseEntity implements SendMailIntf, Serializab
 	}
 	
 	@JsonView({View.Member.class,View.Admin.class})
-	@NotNull
-	@NotEmpty
 	@Column(name = "status")
 	public String getStatus() {
 		return status;
@@ -107,9 +99,6 @@ public class Invite extends SocialBaseEntity implements SendMailIntf, Serializab
 		this.receiver = receiver;
 	}
 	
-	@NotNull
-	@NotEmpty
-	@Size(min = 1, max = 255)
 	@Column(name = "subject")
 	public String getSubject() {
 		return subject;

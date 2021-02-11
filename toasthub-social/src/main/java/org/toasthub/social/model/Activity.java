@@ -23,7 +23,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import org.toasthub.core.general.api.View;
 
@@ -65,7 +64,6 @@ public class Activity extends SocialBaseEntity implements Serializable{
 	}
 	// Setter/Getter
 	@JsonView({View.Public.class,View.Admin.class})
-	@Size(max = 4096)
 	@Column(name = "message")
 	public String getMessage() {
 		return message;
@@ -103,7 +101,6 @@ public class Activity extends SocialBaseEntity implements Serializable{
 	}
 	
 	@JsonView({View.Public.class,View.Admin.class})
-	@Size(min = 1, max = 255)
 	@Column(name = "message_short")
 	public String getMessageShort() {
 		return messageShort;

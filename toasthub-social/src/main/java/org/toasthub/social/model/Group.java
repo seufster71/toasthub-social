@@ -30,7 +30,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import org.toasthub.core.general.api.View;
 
@@ -106,7 +105,6 @@ public class Group extends SocialBaseEntity implements Serializable{
 	}
 	
 	@JsonView({View.Member.class})
-	@Size(min = 1, max = 255)
 	@Column(name = "name")
 	public String getName() {
 		return name;
@@ -116,7 +114,6 @@ public class Group extends SocialBaseEntity implements Serializable{
 	}
 	
 	@JsonView({View.Member.class})
-	@Size(min = 1, max = 2048)
 	@Column(name = "description")
 	public String getDescription() {
 		return description;
