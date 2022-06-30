@@ -66,7 +66,7 @@ public class ActivityDaoImpl implements ActivityDao {
 	public void item(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "FROM Activity WHERE id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id", new Long((Integer) request.getParam("id")));
+		query.setParameter("id", Long.valueOf((Integer) request.getParam("id")));
 		response.addParam("item", (Activity) query.getSingleResult());
 	}
 
@@ -83,7 +83,7 @@ public class ActivityDaoImpl implements ActivityDao {
 	
 	@Override
 	public void delete(RestRequest request, RestResponse response) throws Exception {
-		Activity activity = (Activity) entityManagerDataSvc.getInstance().getReference(Activity.class, new Long((Integer) request.getParam("id")));
+		Activity activity = (Activity) entityManagerDataSvc.getInstance().getReference(Activity.class, Long.valueOf((Integer) request.getParam("id")));
 		entityManagerDataSvc.getInstance().remove(activity);
 	}
 }

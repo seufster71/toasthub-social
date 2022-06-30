@@ -40,7 +40,7 @@ public class LibraryDaoImpl implements LibraryDao{
 	public void getDirectories(RestRequest request, RestResponse response){
 		Long parentId = null;
 		if (request.containsParam("parentId") && request.getParam("parentId") != null){
-			parentId =new Long((Integer) request.getParam("parentId"));
+			parentId =Long.valueOf((Integer) request.getParam("parentId"));
 		}
 		Query query = null;
 		if (request.getParam("iType").equals(Directory.MINE)){
@@ -71,7 +71,7 @@ public class LibraryDaoImpl implements LibraryDao{
 	public void getDirectory(RestRequest request, RestResponse response){
 		String HQLQuery = "FROM Directory AS d WHERE d.id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id",new Long((Integer) request.getParam("directoryId")));
+		query.setParameter("id",Long.valueOf((Integer) request.getParam("directoryId")));
 		response.addParam("group", (Directory) query.getSingleResult());
 	}
 	
@@ -80,7 +80,7 @@ public class LibraryDaoImpl implements LibraryDao{
 		Object d = request.getParam("directory");
 		
 		Directory directory = new Directory();
-		Long parentId = new Long((Integer) request.getParam("parentId"));
+		Long parentId = Long.valueOf((Integer) request.getParam("parentId"));
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		directory.setOwner(userRef);
 		if (parentId != null){
@@ -92,14 +92,14 @@ public class LibraryDaoImpl implements LibraryDao{
 
 	//@Authorize
 	public void deleteDirectory(RestRequest request, RestResponse response) throws Exception {
-		Directory directory = (Directory) entityManagerDataSvc.getInstance().getReference(Directory.class, new Long((Integer) request.getParam("directoryId")));
+		Directory directory = (Directory) entityManagerDataSvc.getInstance().getReference(Directory.class, Long.valueOf((Integer) request.getParam("directoryId")));
 		entityManagerDataSvc.getInstance().remove(directory);
 	}
 	
 	public void getDirectoryCount(RestRequest request, RestResponse response) {
 		Long parentId = null;
 		if (request.containsParam("parentId") && request.getParam("parentId") != null){
-			parentId =new Long((Integer) request.getParam("parentId"));
+			parentId =Long.valueOf((Integer) request.getParam("parentId"));
 		}
 		Query query = null;
 		if (request.containsParam("iType") && request.getParam("iType").equals(Directory.MINE)){
@@ -127,7 +127,7 @@ public class LibraryDaoImpl implements LibraryDao{
 	//////////////////////////////////// File
 	
 	public void getFileCount(RestRequest request, RestResponse response) {
-		Long parentId = new Long((Integer) request.getParam("parentId"));
+		Long parentId = Long.valueOf((Integer) request.getParam("parentId"));
 		Query query = null;
 		if (request.getParam("iType").equals(Directory.MINE) && parentId > 0){
 			String HQLQuery = "SELECT count(*) FROM AttachmentMeta AS a WHERE a.directory.id = :parentid ";
@@ -143,7 +143,7 @@ public class LibraryDaoImpl implements LibraryDao{
 	}
 	
 	public void getFiles(RestRequest request, RestResponse response){
-		Long parentId = new Long((Integer) request.getParam("parentId"));
+		Long parentId = Long.valueOf((Integer) request.getParam("parentId"));
 		Query query = null;
 		if (request.getParam("iType").equals(Directory.MINE) && parentId > 0){
 			String HQLQuery = "FROM AttachmentMeta AS a WHERE a.directory.id = :parentid ORDER BY a.title ASC";
