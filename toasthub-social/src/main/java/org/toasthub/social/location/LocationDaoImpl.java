@@ -73,7 +73,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 			response.addParam("currentItem", location);
 		} else {
 			Location location = (Location) entityManagerDataSvc.getInstance().createQuery("FROM Location l WHERE l.id = :id")
-				.setParameter("id",  Long.valueOf((Integer) request.getParam("id")) ).getSingleResult();
+				.setParameter("id", request.getParamLong("id") ).getSingleResult();
 			if (location != null) {
 				response.addParam("item", location);
 			} else {
@@ -92,7 +92,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 	
 	@Override
 	public void delete(RestRequest request, RestResponse response) throws Exception {
-		Location location = (Location) entityManagerDataSvc.getInstance().find(Location.class, Long.valueOf((Integer) request.getParam("id")));
+		Location location = (Location) entityManagerDataSvc.getInstance().find(Location.class, request.getParamLong("id"));
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		if (location.getOwner().equals(userRef)){
 			entityManagerDataSvc.getInstance().remove(location);
@@ -102,7 +102,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
 	@Override
 	public void saveAttachment(RestRequest request, RestResponse response) throws Exception {
 		AttachmentMeta attachment = (AttachmentMeta) request.getParam("attachment");
-		Long id = Long.valueOf((Integer) request.getParam("fuLocationId"));
+		Long id = request.getParamLong("fuLocationId");
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		attachment.setUserRef(userRef);
 		Directory directory = null;

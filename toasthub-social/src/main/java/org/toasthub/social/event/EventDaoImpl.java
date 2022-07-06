@@ -43,7 +43,7 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 	public void item(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "FROM Event WHERE id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter(GlobalConstant.ID, Long.valueOf((Integer) request.getParam(GlobalConstant.ID)));
+		query.setParameter(GlobalConstant.ID, request.getParamLong(GlobalConstant.ID));
 		response.addParam("item", (Event) query.getSingleResult());
 	}
 
@@ -116,7 +116,7 @@ public class EventDaoImpl extends BaseDaoImpl implements EventDao {
 
 	@Override
 	public void delete(RestRequest request, RestResponse response) throws Exception {
-		Event event = (Event) entityManagerDataSvc.getInstance().getReference(Event.class, Long.valueOf((Integer) request.getParam("id")));
+		Event event = (Event) entityManagerDataSvc.getInstance().getReference(Event.class, request.getParamLong("id"));
 		entityManagerDataSvc.getInstance().remove(event);
 	}
 

@@ -139,7 +139,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getGroup(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "FROM Group AS g WHERE g.id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id",Long.valueOf((Integer) request.getParam("groupId")));
+		query.setParameter("id",request.getParamLong("groupId"));
 		response.addParam("group", (Group) query.getSingleResult());
 	}
 	
@@ -155,13 +155,13 @@ public class GroupDaoImpl implements GroupDao {
 	//@Authorize
 	@Override
 	public void deleteGroup(RestRequest request, RestResponse response) throws Exception {
-		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, Long.valueOf((Integer) request.getParam("groupId")));
+		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, request.getParamLong("groupId"));
 		entityManagerDataSvc.getInstance().remove(group);
 	}
 
 	@Override
 	public void joinGroup(RestRequest request, RestResponse response) throws Exception {
-		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, Long.valueOf((Integer) request.getParam("groupId")));
+		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, request.getParamLong("groupId"));
 		GroupJoin join = new GroupJoin();
 		join.setGroup(group);
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
@@ -173,7 +173,7 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public void leaveGroup(RestRequest request, RestResponse response) throws Exception {
 		Query query = entityManagerDataSvc.getInstance().createQuery("FROM GroupJoin as j WHERE j.group.id = :groupid AND j.user.id = :id");
-		query.setParameter("groupid", Long.valueOf((Integer) request.getParam("groupId")));
+		query.setParameter("groupid", request.getParamLong("groupId"));
 		query.setParameter("id", ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		GroupJoin join = (GroupJoin) query.getSingleResult();
 		entityManagerDataSvc.getInstance().remove(join);
@@ -183,14 +183,14 @@ public class GroupDaoImpl implements GroupDao {
 	//@Authorize
 	@Override
 	public void cancelPublicRequestJoin(RestRequest request, RestResponse response) throws Exception {
-		GroupPublicRequest groupPublicRequest = (GroupPublicRequest) entityManagerDataSvc.getInstance().getReference(GroupPublicRequest.class, Long.valueOf((Integer) request.getParam("joinId")));
+		GroupPublicRequest groupPublicRequest = (GroupPublicRequest) entityManagerDataSvc.getInstance().getReference(GroupPublicRequest.class, request.getParamLong("joinId"));
 		entityManagerDataSvc.getInstance().remove(groupPublicRequest);
 	}
 	
 	//@Authorize
 	@Override
 	public void cancelPrivateInviteJoin(RestRequest request, RestResponse response) throws Exception {
-		GroupPrivateInvite invite = (GroupPrivateInvite) entityManagerDataSvc.getInstance().getReference(GroupPrivateInvite.class, Long.valueOf((Integer) request.getParam("joinId")));
+		GroupPrivateInvite invite = (GroupPrivateInvite) entityManagerDataSvc.getInstance().getReference(GroupPrivateInvite.class, request.getParamLong("joinId"));
 		entityManagerDataSvc.getInstance().remove(invite);
 	}
 	
@@ -246,7 +246,7 @@ public class GroupDaoImpl implements GroupDao {
 	
 	@Override
 	public void privateInviteGroup(RestRequest request, RestResponse response) throws Exception {
-		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, Long.valueOf((Integer) request.getParam("groupId")));
+		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, request.getParamLong("groupId"));
 		GroupPrivateInvite groupPrivateInvite = (GroupPrivateInvite) request.getParams().get("groupPrivateInvite");
 		groupPrivateInvite.setGroup(group);
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
@@ -257,7 +257,7 @@ public class GroupDaoImpl implements GroupDao {
 	
 	@Override
 	public void acceptPrivateInviteJoin(RestRequest request, RestResponse response) throws Exception {
-		GroupPrivateInvite invite = entityManagerDataSvc.getInstance().find(GroupPrivateInvite.class, Long.valueOf((Integer) request.getParam("inviteId")));
+		GroupPrivateInvite invite = entityManagerDataSvc.getInstance().find(GroupPrivateInvite.class, request.getParamLong("inviteId"));
 		invite.setStatus(GroupPrivateInvite.APRV);
 		request.addParam("groupId", invite.getGroup().getId());
 		this.joinGroup(request, response);
@@ -266,20 +266,20 @@ public class GroupDaoImpl implements GroupDao {
 	
 	@Override
 	public void rejectPrivateInviteJoin(RestRequest request, RestResponse response) throws Exception {
-		int num = entityManagerDataSvc.getInstance().createQuery("UPDATE GroupPrivateInvite AS i SET i.status = 'REJT' WHERE i.id = :inviteid").setParameter("inviteid", Long.valueOf((Integer) request.getParam("inviteId"))).executeUpdate();
+		int num = entityManagerDataSvc.getInstance().createQuery("UPDATE GroupPrivateInvite AS i SET i.status = 'REJT' WHERE i.id = :inviteid").setParameter("inviteid", request.getParamLong("inviteId")).executeUpdate();
 	
 	}
 	
 	@Override
 	public void deletePrivateInviteJoin(RestRequest request, RestResponse response) throws Exception {
-		GroupPrivateInvite invite = entityManagerDataSvc.getInstance().find(GroupPrivateInvite.class, Long.valueOf((Integer) request.getParam("inviteId")));
+		GroupPrivateInvite invite = entityManagerDataSvc.getInstance().find(GroupPrivateInvite.class, request.getParamLong("inviteId"));
 		entityManagerDataSvc.getInstance().remove(invite);
 		
 	}
 	
 	@Override
 	public void requestJoinGroup(RestRequest request, RestResponse response) throws Exception {
-		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, Long.valueOf((Integer) request.getParam("groupId")));
+		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, request.getParamLong("groupId"));
 		GroupPublicRequest groupRequest = (GroupPublicRequest) request.getParams().get("groupRequest");
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		groupRequest.setSender(userRef);
@@ -291,7 +291,7 @@ public class GroupDaoImpl implements GroupDao {
 	
 	@Override
 	public void acceptPublicRequestJoin(RestRequest request, RestResponse response) throws Exception {
-		GroupPublicRequest groupPublicRequest = entityManagerDataSvc.getInstance().find(GroupPublicRequest.class, Long.valueOf((Integer) request.getParam("requestId")));
+		GroupPublicRequest groupPublicRequest = entityManagerDataSvc.getInstance().find(GroupPublicRequest.class, request.getParamLong("requestId"));
 		groupPublicRequest.setStatus(GroupPublicRequest.APRV);
 		GroupJoin join = new GroupJoin();
 		join.setGroup(groupPublicRequest.getGroup());
@@ -304,13 +304,13 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public void rejectPublicRequestJoin(RestRequest request, RestResponse response) throws Exception {
 		int num = entityManagerDataSvc.getInstance().createQuery("UPDATE GroupPublicRequest AS r SET r.status = 'REJT' WHERE r.id = :requestid")
-				.setParameter("requestid", Long.valueOf((Integer) request.getParam("requestId"))).executeUpdate();
+				.setParameter("requestid", request.getParamLong("requestId")).executeUpdate();
 		
 	}
 	
 	@Override
 	public void deletePublicRequestJoin(RestRequest request, RestResponse response) throws Exception {
-		GroupPublicRequest groupPublicRequest = entityManagerDataSvc.getInstance().find(GroupPublicRequest.class, Long.valueOf((Integer) request.getParam("requestId")));
+		GroupPublicRequest groupPublicRequest = entityManagerDataSvc.getInstance().find(GroupPublicRequest.class, request.getParamLong("requestId"));
 		entityManagerDataSvc.getInstance().remove(groupPublicRequest);
 	}
 //////////////////////////////////////////  Discussions //////////////////////////////////////
@@ -319,7 +319,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getDiscussionCount(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "SELECT count(*) FROM Discussion AS d WHERE d.group.id = :groupid";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("groupid",Long.valueOf((Integer) request.getParam("groupId")));
+		query.setParameter("groupid",request.getParamLong("groupId"));
 		response.addParam("discussionCount", (Long) query.getSingleResult());
 	}
 	
@@ -327,7 +327,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getDiscussions(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "SELECT NEW Discussion(d.id,d.subject,d.messageShort,d.owner) FROM Discussion AS d WHERE d.group.id = :groupid ORDER BY d.created DESC";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("groupid", Long.valueOf((Integer) request.getParam("groupId")));
+		query.setParameter("groupid", request.getParamLong("groupId"));
 		if ((Integer) request.getParam("pageLimit") != 0){
 			query.setFirstResult((Integer) request.getParam("pageStart"));
 			query.setMaxResults((Integer) request.getParam("pageLimit"));
@@ -339,7 +339,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getDiscussion(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "FROM Discussion AS d WHERE d.id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id",Long.valueOf((Integer) request.getParam("discussionId")));
+		query.setParameter("id",request.getParamLong("discussionId"));
 		response.addParam("discussionComment", (Discussion) query.getSingleResult());
 	}
 	
@@ -347,7 +347,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getDiscussionMessage(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "SELECT NEW Discussion(d.id,d.messageShort,d.message) FROM Discussion AS d WHERE d.id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id",Long.valueOf((Integer) request.getParam("discussionId")));
+		query.setParameter("id",request.getParamLong("discussionId"));
 		response.addParam("discussionMessage", (Discussion) query.getSingleResult());
 	}
 	
@@ -357,7 +357,7 @@ public class GroupDaoImpl implements GroupDao {
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		Discussion discussion = (Discussion) request.getParam("discussion");
 		discussion.setOwner(userRef);
-		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, Long.valueOf((Integer) request.getParam("groupId")));
+		Group group = (Group) entityManagerDataSvc.getInstance().getReference(Group.class, request.getParamLong("groupId"));
 		discussion.setGroup(group);
 		entityManagerDataSvc.getInstance().merge(discussion);
 	}
@@ -365,7 +365,7 @@ public class GroupDaoImpl implements GroupDao {
 	//@Authorize
 	@Override
 	public void deleteDiscussion(RestRequest request, RestResponse response) throws Exception {
-		Discussion discussion = (Discussion) entityManagerDataSvc.getInstance().getReference(Discussion.class, Long.valueOf((Integer) request.getParam("discussionId")));
+		Discussion discussion = (Discussion) entityManagerDataSvc.getInstance().getReference(Discussion.class, request.getParamLong("discussionId"));
 		entityManagerDataSvc.getInstance().remove(discussion);
 	}
 	
@@ -375,7 +375,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getCommentCount(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "SELECT count(*) FROM DiscussionComment AS c WHERE c.discussion.id = :discussionid";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("discussionid",Long.valueOf((Integer) request.getParam("discussionId")));
+		query.setParameter("discussionid",request.getParam("discussionId"));
 		response.addParam("commentCount", (Long) query.getSingleResult());
 	}
 	
@@ -383,7 +383,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getDiscussionComments(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "SELECT NEW DiscussionComment(c.id,c.messageShort,c.owner) FROM DiscussionComment AS c WHERE c.discussion.id = :discussionid ORDER BY c.created DESC";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("discussionid", Long.valueOf((Integer) request.getParam("discussionId")));
+		query.setParameter("discussionid", request.getParamLong("discussionId"));
 		if ((Integer) request.getParams().get("pageLimit") != 0){
 			query.setFirstResult((Integer) request.getParam("pageStart"));
 			query.setMaxResults((Integer) request.getParam("pageLimit"));
@@ -395,7 +395,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getDiscussionComment(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "FROM DiscussionComment AS c WHERE c.id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id",Long.valueOf((Integer) request.getParam("commentId")));
+		query.setParameter("id",request.getParamLong("commentId"));
 		response.addParam("discussionComments", (DiscussionComment) query.getSingleResult());
 	}
 	
@@ -403,7 +403,7 @@ public class GroupDaoImpl implements GroupDao {
 	public void getCommentMessage(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "SELECT NEW DiscussionComment(c.id,c.messageShort,c.message) FROM DiscussionComment AS c WHERE c.id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id",Long.valueOf((Integer) request.getParam("commentId")));
+		query.setParameter("id",request.getParamLong("commentId"));
 		response.addParam("commentMessage", (DiscussionComment) query.getSingleResult());
 	}
 	
@@ -413,7 +413,7 @@ public class GroupDaoImpl implements GroupDao {
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		DiscussionComment comment = (DiscussionComment) request.getParam("comment");
 		comment.setOwner(userRef);
-		Discussion discussion = (Discussion) entityManagerDataSvc.getInstance().getReference(Discussion.class, Long.valueOf((Integer) request.getParam("discussionId")));
+		Discussion discussion = (Discussion) entityManagerDataSvc.getInstance().getReference(Discussion.class, request.getParamLong("discussionId"));
 		comment.setDiscussion(discussion);
 		entityManagerDataSvc.getInstance().merge(comment);
 	}
@@ -422,7 +422,7 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public void deleteDiscussionComment(RestRequest request, RestResponse response) throws Exception {
 		int deletedEntities = entityManagerDataSvc.getInstance().createQuery("DELETE DiscussionComment as c WHERE c.id = :id")
-				.setParameter("id", Long.valueOf((Integer) request.getParam("commentId"))).executeUpdate();
+				.setParameter("id", request.getParamLong("commentId")).executeUpdate();
 		if (deletedEntities == 0){
 			throw new Exception("Nothing deleted verify your id");
 		}

@@ -73,7 +73,7 @@ public class AttachmentDaoImpl implements AttachmentDao {
 	@Override
 	public void save(RestRequest request, RestResponse response) throws Exception {
 		AttachmentMeta attachment = (AttachmentMeta) request.getParam("attachmentMeta");
-		Long id = Long.valueOf((Integer) request.getParam("id"));
+		Long id = request.getParamLong("id");
 		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, ((UserRef) request.getParam(GlobalConstant.USERREF)).getId());
 		attachment.setUserRef(userRef);
 		Directory directory = null;

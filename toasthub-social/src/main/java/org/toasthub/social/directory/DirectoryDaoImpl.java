@@ -44,7 +44,7 @@ public class DirectoryDaoImpl extends BaseDaoImpl implements DirectoryDao {
 
 	@Override
 	public void delete(RestRequest request, RestResponse response) throws Exception {
-		Directory directory = (Directory) entityManagerDataSvc.getInstance().getReference(Directory.class, Long.valueOf((Integer) request.getParam("id")));
+		Directory directory = (Directory) entityManagerDataSvc.getInstance().getReference(Directory.class, request.getParamLong("id"));
 		entityManagerDataSvc.getInstance().remove(directory);
 	}
 

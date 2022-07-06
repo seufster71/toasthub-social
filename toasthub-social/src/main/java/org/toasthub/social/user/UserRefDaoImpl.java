@@ -77,7 +77,7 @@ public class UserRefDaoImpl implements UserRefDao {
 	public void item(RestRequest request, RestResponse response) throws Exception {
 		String HQLQuery = "FROM UserRef WHERE id = :id";
 		Query query = entityManagerDataSvc.getInstance().createQuery(HQLQuery);
-		query.setParameter("id", Long.valueOf((Integer) request.getParam("id")));
+		query.setParameter("id", request.getParamLong("id"));
 		response.addParam("user", (Event) query.getSingleResult());
 	}
 
@@ -92,7 +92,7 @@ public class UserRefDaoImpl implements UserRefDao {
 
 	@Override
 	public void delete(RestRequest request, RestResponse response) throws Exception {
-		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, Long.valueOf((Integer) request.getParam(GlobalConstant.ID)));
+		UserRef userRef = (UserRef) entityManagerDataSvc.getInstance().getReference(UserRef.class, request.getParamLong(GlobalConstant.ID));
 		entityManagerDataSvc.getInstance().remove(userRef);
 	}
 
